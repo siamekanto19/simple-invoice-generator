@@ -146,94 +146,369 @@ const InvoicePreview = ({ onBack }: Props) => {
   })
 
   // PDF Document
+  // Professional PDF Document optimized for single page
   const InvoicePDF = (
     <Document>
       <Page size='A4' style={styles.page}>
-        {/* Blue line at the very top edge */}
-        <View style={styles.topLine} fixed />
+        {/* Compact Header */}
         <View
-          style={[
-            styles.section,
-            {
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            },
-          ]}
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: 16,
+            paddingBottom: 8,
+            borderBottomWidth: 1,
+            borderBottomColor: '#000000',
+            borderBottomStyle: 'solid',
+          }}
         >
-          <Text style={styles.heading}>{values.contractName}</Text>
-          <Text style={{ fontSize: 16, fontWeight: 600 }}>
-            Invoice #{values.invoiceNumber}
-          </Text>
-        </View>
-        <View style={styles.section}>
-          <Text style={styles.label}>Billed by</Text>
-          <Text>{values.issuer?.name}</Text>
-          <Text style={{ textDecoration: 'underline', color: '#2563eb' }}>
-            {values.issuer?.email}
-          </Text>
-          <Text>{values.issuer?.address}</Text>
-        </View>
-        <View style={styles.section}>
-          <Text style={styles.label}>Billed to</Text>
-          <Text>{values.client?.name}</Text>
-          <Text style={{ textDecoration: 'underline', color: '#2563eb' }}>
-            {values.client?.email}
-          </Text>
-          <Text>{values.client?.address}</Text>
-        </View>
-        <View style={styles.section}>
-          <View style={styles.dateRow}>
-            <View>
-              <Text style={styles.dateText}>Issue Date</Text>
-              <Text style={{ marginTop: 4 }}>
-                {values.date ? dayjs(values.date).format('DD MMM, YYYY') : ''}
-              </Text>
-            </View>
-            <View>
-              <Text style={styles.dateText}>Due Date</Text>
-              <Text style={{ marginTop: 4 }}>
-                {values.dueDate
-                  ? dayjs(values.dueDate).format('DD MMM, YYYY')
-                  : ''}
-              </Text>
-            </View>
+          <View>
+            <Text
+              style={{
+                fontSize: 20,
+                fontWeight: 'bold',
+                marginBottom: 2,
+              }}
+            >
+              INVOICE
+            </Text>
+            <Text
+              style={{
+                fontSize: 12,
+                color: '#666666',
+              }}
+            >
+              {values.contractName}
+            </Text>
+          </View>
+          <View style={{ alignItems: 'flex-end' }}>
+            <Text
+              style={{
+                fontSize: 14,
+                fontWeight: 'bold',
+              }}
+            >
+              #{values.invoiceNumber}
+            </Text>
           </View>
         </View>
-        <View style={styles.section}>
-          <Text style={styles.label}>Items</Text>
-          <View style={styles.table}>
-            <View style={styles.tableRow}>
-              <View style={styles.tableColHeaderDescription}>
-                <Text style={styles.tableCellHeader}>Description</Text>
+
+        {/* Billing Information */}
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginBottom: 16,
+          }}
+        >
+          <View style={{ width: '48%' }}>
+            <Text
+              style={{
+                fontSize: 10,
+                fontWeight: 'bold',
+                marginBottom: 4,
+              }}
+            >
+              BILL FROM
+            </Text>
+            <Text
+              style={{
+                fontSize: 12,
+                fontWeight: 'bold',
+                marginBottom: 2,
+              }}
+            >
+              {values.issuer?.name}
+            </Text>
+            <Text
+              style={{
+                fontSize: 11,
+                marginBottom: 2,
+              }}
+            >
+              {values.issuer?.email}
+            </Text>
+            <Text
+              style={{
+                fontSize: 11,
+                color: '#666666',
+              }}
+            >
+              {values.issuer?.address}
+            </Text>
+          </View>
+
+          <View style={{ width: '48%' }}>
+            <Text
+              style={{
+                fontSize: 10,
+                fontWeight: 'bold',
+                marginBottom: 4,
+              }}
+            >
+              BILL TO
+            </Text>
+            <Text
+              style={{
+                fontSize: 12,
+                fontWeight: 'bold',
+                marginBottom: 2,
+              }}
+            >
+              {values.client?.name}
+            </Text>
+            <Text
+              style={{
+                fontSize: 11,
+                marginBottom: 2,
+              }}
+            >
+              {values.client?.email}
+            </Text>
+            <Text
+              style={{
+                fontSize: 11,
+                color: '#666666',
+              }}
+            >
+              {values.client?.address}
+            </Text>
+          </View>
+        </View>
+
+        {/* Date Information */}
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginBottom: 16,
+            paddingVertical: 8,
+            borderTopWidth: 1,
+            borderBottomWidth: 1,
+            borderColor: '#e5e7eb',
+            borderStyle: 'solid',
+          }}
+        >
+          <View>
+            <Text
+              style={{
+                fontSize: 10,
+                fontWeight: 'bold',
+                marginBottom: 2,
+              }}
+            >
+              ISSUE DATE
+            </Text>
+            <Text
+              style={{
+                fontSize: 12,
+              }}
+            >
+              {values.date ? dayjs(values.date).format('DD MMM, YYYY') : '—'}
+            </Text>
+          </View>
+          <View>
+            <Text
+              style={{
+                fontSize: 10,
+                fontWeight: 'bold',
+                marginBottom: 2,
+              }}
+            >
+              DUE DATE
+            </Text>
+            <Text
+              style={{
+                fontSize: 12,
+              }}
+            >
+              {values.dueDate
+                ? dayjs(values.dueDate).format('DD MMM, YYYY')
+                : '—'}
+            </Text>
+          </View>
+        </View>
+
+        {/* Items Table */}
+        <View style={{ marginBottom: 12 }}>
+          <Text
+            style={{
+              fontSize: 12,
+              fontWeight: 'bold',
+              marginBottom: 8,
+            }}
+          >
+            ITEMS
+          </Text>
+
+          <View
+            style={{
+              borderWidth: 1,
+              borderColor: '#000000',
+              borderStyle: 'solid',
+            }}
+          >
+            {/* Table Header */}
+            <View
+              style={{
+                flexDirection: 'row',
+                backgroundColor: '#f5f5f5',
+              }}
+            >
+              <View
+                style={{
+                  width: '40%',
+                  padding: 6,
+                  borderRightWidth: 1,
+                  borderRightColor: '#000000',
+                  borderRightStyle: 'solid',
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 10,
+                    fontWeight: 'bold',
+                  }}
+                >
+                  Description
+                </Text>
               </View>
-              <View style={styles.tableColHeader}>
-                <Text style={styles.tableCellHeader}>Quantity</Text>
+              <View
+                style={{
+                  width: '20%',
+                  padding: 6,
+                  borderRightWidth: 1,
+                  borderRightColor: '#000000',
+                  borderRightStyle: 'solid',
+                  alignItems: 'center',
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 10,
+                    fontWeight: 'bold',
+                  }}
+                >
+                  Qty
+                </Text>
               </View>
-              <View style={styles.tableColHeader}>
-                <Text style={styles.tableCellHeader}>Rate</Text>
+              <View
+                style={{
+                  width: '20%',
+                  padding: 6,
+                  borderRightWidth: 1,
+                  borderRightColor: '#000000',
+                  borderRightStyle: 'solid',
+                  alignItems: 'center',
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 10,
+                    fontWeight: 'bold',
+                  }}
+                >
+                  Rate
+                </Text>
               </View>
-              <View style={styles.tableColHeader}>
-                <Text style={styles.tableCellHeader}>Amount</Text>
+              <View
+                style={{
+                  width: '20%',
+                  padding: 6,
+                  alignItems: 'flex-end',
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 10,
+                    fontWeight: 'bold',
+                  }}
+                >
+                  Amount
+                </Text>
               </View>
             </View>
+
+            {/* Table Rows */}
             {Array.isArray(values.items) &&
               values.items.map((item, idx) => (
-                <View style={styles.tableRow} key={item.id || idx}>
-                  <View style={styles.tableColDescription}>
-                    <Text style={styles.tableCell}>{item.description}</Text>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    borderTopWidth: 1,
+                    borderTopColor: 'black',
+                    borderTopStyle: 'solid',
+                  }}
+                  key={item.id || idx}
+                >
+                  <View
+                    style={{
+                      width: '40%',
+                      padding: 6,
+                      borderRightWidth: 1,
+                      borderRightColor: 'black',
+                      borderRightStyle: 'solid',
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 11,
+                      }}
+                    >
+                      {item.description}
+                    </Text>
                   </View>
-                  <View style={styles.tableColData}>
-                    <Text style={styles.tableCell}>{item.quantity}</Text>
+                  <View
+                    style={{
+                      width: '20%',
+                      padding: 6,
+                      borderRightWidth: 1,
+                      borderRightColor: 'black',
+                      borderRightStyle: 'solid',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 11,
+                      }}
+                    >
+                      {item.quantity}
+                    </Text>
                   </View>
-                  <View style={styles.tableColData}>
-                    <Text style={styles.tableCell}>
+                  <View
+                    style={{
+                      width: '20%',
+                      padding: 6,
+                      borderRightWidth: 1,
+                      borderRightColor: 'black',
+                      borderRightStyle: 'solid',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 11,
+                      }}
+                    >
                       {getCurrencySymbol(values.currency)}
                       {item.rate.toFixed(2)}
                     </Text>
                   </View>
-                  <View style={styles.tableColData}>
-                    <Text style={styles.tableCell}>
+                  <View
+                    style={{
+                      width: '20%',
+                      padding: 6,
+                      alignItems: 'flex-end',
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 11,
+                        fontWeight: 'bold',
+                      }}
+                    >
                       {getCurrencySymbol(values.currency)}
                       {(item.quantity * item.rate).toFixed(2)}
                     </Text>
@@ -241,34 +516,82 @@ const InvoicePreview = ({ onBack }: Props) => {
                 </View>
               ))}
           </View>
-          {/* End of table. Total below. */}
         </View>
-        <Text style={styles.total}>
-          Total: {getCurrencySymbol(values.currency)}
-          {values.items
-            ? values.items
-                .reduce((sum, item) => sum + item.quantity * item.rate, 0)
-                .toFixed(2)
-            : '0.00'}
-        </Text>
+
+        {/* Total Section */}
+        <View
+          style={{
+            alignItems: 'flex-end',
+            marginBottom: 16,
+          }}
+        >
+          <View
+            style={{
+              borderWidth: 1,
+              borderColor: '#000000',
+              borderStyle: 'solid',
+              padding: 12,
+              minWidth: 150,
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 11,
+                marginBottom: 2,
+                textAlign: 'center',
+              }}
+            >
+              TOTAL AMOUNT
+            </Text>
+            <Text
+              style={{
+                fontSize: 18,
+                fontWeight: 'bold',
+                textAlign: 'center',
+              }}
+            >
+              {getCurrencySymbol(values.currency)}
+              {values.items
+                ? values.items
+                    .reduce((sum, item) => sum + item.quantity * item.rate, 0)
+                    .toFixed(2)
+                : '0.00'}
+            </Text>
+          </View>
+        </View>
+
+        {/* Additional Notes */}
         {values.additionalNotes?.title || values.additionalNotes?.content ? (
           <View
             style={{
               position: 'absolute',
               left: 40,
               bottom: 40,
-              maxWidth: 300,
+              right: 40,
+              borderTopWidth: 1,
+              borderTopColor: '#000000',
+              borderTopStyle: 'solid',
+              paddingTop: 8,
             }}
           >
             {values.additionalNotes?.title && (
               <Text
-                style={{ fontWeight: 'bold', fontSize: 14, marginBottom: 4 }}
+                style={{
+                  fontSize: 11,
+                  fontWeight: 'bold',
+                  marginBottom: 4,
+                }}
               >
                 {values.additionalNotes.title}
               </Text>
             )}
             {values.additionalNotes?.content && (
-              <Text style={{ fontSize: 13, color: '#444' }}>
+              <Text
+                style={{
+                  fontSize: 10,
+                  color: '#666666',
+                }}
+              >
                 {values.additionalNotes.content}
               </Text>
             )}
