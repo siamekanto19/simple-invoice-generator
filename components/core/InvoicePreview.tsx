@@ -279,8 +279,8 @@ const InvoicePreview = ({ onBack }: Props) => {
   )
 
   return (
-    <div className='w-full h-screen border-x'>
-      <div className='h-14 w-full border-b flex items-center px-4 gap-3'>
+    <div className='w-full h-screen'>
+      <div className='h-14 w-full border-b flex items-center gap-3'>
         <button onClick={onBack} className='hover:text-muted-foreground'>
           <ArrowLeft size={20} strokeWidth={1.75} />
         </button>
